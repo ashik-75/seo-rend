@@ -1,14 +1,14 @@
 import { Character } from "@/types/character.types";
-import Image from "next/image";
+import Link from "next/link";
 
 function Card(props: { character: Character }) {
-  const { image, name, location } = props.character;
+  const { image, name, location, id } = props.character;
   console.log("BBB", props.character);
   return (
     <div>
-      <div className="relative">
-        <Image src={image} alt={name} fill className="absolute w-full h-full" />
-      </div>
+      <Link href={`/${id}`}>
+        <img src={image} alt={name} className="w-full rounded" />
+      </Link>
 
       <h1>{name}</h1>
     </div>

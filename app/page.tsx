@@ -10,7 +10,7 @@ async function Homepage() {
     <div>
       <h1>Page - {data.info.count}</h1>
 
-      <div>
+      <div className="grid grid-cols-4 gap-5">
         {data?.results?.map((character) => (
           <Card character={character} key={character.id} />
         ))}
