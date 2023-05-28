@@ -1,4 +1,5 @@
 import { Character } from "@/types/character.types";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 
 async function DetailsPage({ params: { id } }: { params: { id: string } }) {
@@ -16,7 +17,7 @@ async function DetailsPage({ params: { id } }: { params: { id: string } }) {
   return (
     <div>
       {ch.image && (
-        <img src={ch.image} alt={ch.name} width={200} height={150} />
+        <Image src={ch.image} alt={ch.name} width={200} height={150} />
       )}
 
       <h1>{ch.name}</h1>
