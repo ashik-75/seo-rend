@@ -1,6 +1,31 @@
-import { Character } from "@/types/character.types";
+import { Character, Main } from "@/types/character.types";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+
+export const generateStaticParams = async () => {
+  const response = await fetch(`https://rickandmortyapi.com/api/character`);
+  const characters: Main = await response.json();
+
+  return characters.results.map((character) => ({
+    id: character.id.toString(),
+  }));
+};
+
+export async function generateMetadata({
+  params: { id },
+}: {
+  params: { id: string };
+}) {
+  const response = await fetch(
+    `https://rickandmortyapi.com/api/character/${id}`
+  );
+  const ch: Character = await response.json();
+
+  return {
+    title: ch.name,
+    description: "GOOOOOOOOOOD",
+  };
+}
 
 async function DetailsPage({ params: { id } }: { params: { id: string } }) {
   const response = await fetch(
@@ -8,7 +33,7 @@ async function DetailsPage({ params: { id } }: { params: { id: string } }) {
   );
   const ch: Character = await response.json();
 
-  console.log(ch);
+  console.log("CALLED: ", ch?.id);
 
   if (!ch?.id) {
     return notFound();

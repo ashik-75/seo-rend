@@ -5,7 +5,6 @@ interface Props {
 }
 
 function Spinner({ width = 50, height = 50, color = "fill-white" }: Props) {
-  console.log({ width, height });
   return (
     <div>
       <div role="status">
