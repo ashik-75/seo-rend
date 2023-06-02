@@ -1,4 +1,5 @@
 import { Character, Main } from "@/types/character.types";
+import { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
@@ -15,7 +16,7 @@ export async function generateMetadata({
   params: { id },
 }: {
   params: { id: string };
-}) {
+}): Promise<Metadata> {
   const response = await fetch(
     `https://rickandmortyapi.com/api/character/${id}`
   );
@@ -24,6 +25,9 @@ export async function generateMetadata({
   return {
     title: ch.name,
     description: "GOOOOOOOOOOD",
+    alternates: {
+      canonical: `/${id}`,
+    },
   };
 }
 

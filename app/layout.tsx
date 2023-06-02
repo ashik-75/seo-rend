@@ -7,6 +7,11 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3000"
+      : "https://seo-rend.vercel.app/"
+  ),
   title: {
     default: "ANIME",
     template: `%s | ANIME`,
