@@ -9,7 +9,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const { searchParams } = new URL(req.url);
     const payload = await req.json();
     const product = await swell.products.get(payload?.data?.id);
-    console.log({ method: req.method, payload, product });
+    console.log({ method: req.method, payload, name: product?.name });
 
     const secret = searchParams.get("secret");
 
