@@ -6,6 +6,14 @@ const nextConfig = {
         protocol: "https",
         hostname: "rickandmortyapi.com",
       },
+      {
+        protocol: "https",
+        hostname: "i.dummyjson.com",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.swell.store",
+      },
     ],
   },
 };

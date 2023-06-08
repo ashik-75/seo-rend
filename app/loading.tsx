@@ -1,9 +1,9 @@
-import { FullPageSpinner } from "@/components/Spinner";
+import { FullPageSpinner } from "./components/ui/Spinner";
 
 function loading() {
   return (
     <div>
-      <FullPageSpinner color="fill-rose-600" />
+      <FullPageSpinner />
     </div>
   );
 }

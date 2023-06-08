@@ -1,20 +1,24 @@
-import Card from "@/components/Card";
-import { Main } from "@/types/character.types";
+import { getCategories } from "@/lib/swell/category";
+import { getProducts } from "@/lib/swell/products";
+import CategoryProducts from "./CategoryProducts";
+import FeaturedProducts from "./FeaturedProducts";
+import Fuck from "./Fuck";
 
 async function Homepage() {
-  const response = await fetch("https://rickandmortyapi.com/api/character");
-  const data: Main = await response.json();
+  const response = await getProducts({});
 
-  console.log({ data });
+  const categories = await getCategories();
+
   return (
-    <div>
-      <h1>Page - {data.info.count}</h1>
+    <div className="max-w-7xl mx-auto">
+      <CategoryProducts
+        categories={categories?.results}
+        products={response?.results}
+      />
+      {/* @ts-expect-error */}
+      <FeaturedProducts products={response?.results} />
 
-      <div className="grid grid-cols-4 gap-5">
-        {data?.results?.map((character) => (
-          <Card character={character} key={character.id} />
-        ))}
-      </div>
+      <Fuck />
     </div>
   );
 }
