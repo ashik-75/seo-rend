@@ -1,9 +1,11 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { PropsWithChildren } from "react";
+import { usePathname } from "next/navigation";
+import { PropsWithChildren, useEffect } from "react";
 
 function Provider(props: PropsWithChildren) {
+  const pathname = usePathname();
   const client = new QueryClient({
     defaultOptions: {
       queries: {
@@ -11,6 +13,14 @@ function Provider(props: PropsWithChildren) {
       },
     },
   });
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant" as any,
+    });
+  }, [pathname]);
   return (
     <QueryClientProvider client={client}>{props.children}</QueryClientProvider>
   );
