@@ -7,8 +7,15 @@
 @layer base {
   body {
     font-family: "Inter", sans-serif;
-    /* font-family: "DM Serif Display", serif;
-    font-family: "IBM Plex Serif", serif;
-    font-family: "Roboto", sans-serif; */
+    height: 100%;
+  }
+}
+
+@layer components {
+  .text-underline {
+    @apply relative before:content-[''] before:absolute before:block before:w-full before:h-[1px] 
+    before:bottom-0 before:left-0 before:bg-black
+    before:hover:scale-x-100 before:scale-x-0 before:origin-top-left
+    before:transition before:ease-in-out before:duration-300 w-fit;
   }
 }

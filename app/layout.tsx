@@ -21,16 +21,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <Provider>
+      <Provider>
+        <body>
           <Header />
           <Toaster />
           <main className="max-w-7xl mx-auto p-5 min-h-screen pt-28">
             {children}
           </main>
           <Footer />
-        </Provider>
-      </body>
+        </body>
+      </Provider>
     </html>
   );
 }

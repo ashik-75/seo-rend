@@ -21,7 +21,7 @@ function Header() {
 
   return (
     <>
-      <header className=" border-b border-lime-900/20 p-5 fixed inset-x-0 bg-white z-10 ">
+      <header className=" border-b border-lime-900/20 p-5 sticky top-0 inset-x-0 bg-white z-10 ">
         <nav className="flex justify-between items-center max-w-7xl mx-auto">
           <div className="flex gap-10 items-center">
             <div>
@@ -29,13 +29,13 @@ function Header() {
             </div>
 
             <ul className="flex gap-10">
-              <li>
+              <li className="text-underline">
                 <Link href={"/"}>Home</Link>
               </li>
-              <li>
+              <li className="text-underline">
                 <Link href={"/products"}>Products</Link>
               </li>
-              <li>
+              <li className="text-underline">
                 <Link href={"/stores"}>Stores</Link>
               </li>
             </ul>

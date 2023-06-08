@@ -1,13 +1,12 @@
 "use client";
 
 import { removeFromCart } from "@/lib/swell/cart";
-import { applyCoupon } from "@/lib/swell/coupon";
 import { formatCurrency } from "@/lib/utils";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
-import { Dispatch, FormEvent, Fragment, SetStateAction, useState } from "react";
+import { Dispatch, Fragment, SetStateAction } from "react";
 import { toast } from "react-hot-toast";
 
 interface Props {
@@ -18,7 +17,6 @@ interface Props {
 }
 
 function CartSlider({ isCartOpen, setIsCartOpen, cart, cartIsLoading }: Props) {
-  const [coupon, setCoupon] = useState("");
   const queryClient = useQueryClient();
   const { isLoading, mutateAsync } = useMutation({
     mutationFn: (productId: string) => removeFromCart(productId),
@@ -40,23 +38,6 @@ function CartSlider({ isCartOpen, setIsCartOpen, cart, cartIsLoading }: Props) {
     });
   };
 
-  const { mutateAsync: couponMutate } = useMutation({
-    mutationFn: (code: string) => applyCoupon(code),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["cart"],
-      });
-    },
-  });
-
-  const handleCoupon = (e: FormEvent) => {
-    e.preventDefault();
-    toast.promise(couponMutate(coupon), {
-      loading: "Check coupon...",
-      success: "you get the discount!",
-      error: "sorry, invalid coupon code",
-    });
-  };
   return (
     <Transition.Root show={Boolean(isCartOpen)} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setIsCartOpen}>
@@ -159,22 +140,6 @@ function CartSlider({ isCartOpen, setIsCartOpen, cart, cartIsLoading }: Props) {
                             ))}
                           </ul>
                         </div>
-
-                        <form onSubmit={handleCoupon}>
-                          <input
-                            className="outline-none px-4 py-2 rounded border border-zinc-300"
-                            value={coupon}
-                            onChange={(e) => setCoupon(e.target.value)}
-                            type="text"
-                            placeholder="apply coupon"
-                          />
-                          <button
-                            type="submit"
-                            className="px-2 py-1 rounded border"
-                          >
-                            APPLY
-                          </button>
-                        </form>
                       </div>
                     </div>
 

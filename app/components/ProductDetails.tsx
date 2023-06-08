@@ -3,20 +3,22 @@
 import { addToCart } from "@/lib/swell/cart";
 import { formatCurrency } from "@/lib/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { motion as m } from "framer-motion";
 import Image from "next/image";
+import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { ProductDetailsType } from "../../types/ProdDetails.types";
 
 function ProductDetails({
   product: { images, name, description, price, currency, id },
-}: {
-  product: ProductDetailsType;
-}) {
+}: any) {
+  const [activeImage, setActiveImage] = useState<string>(
+    images?.[0]?.file?.url
+  );
   const queryClient = useQueryClient();
-  const { mutateAsync, data, isLoading } = useMutation({
+  const { mutateAsync, isLoading } = useMutation({
     mutationFn: (item: { product_id: string; quantity: number }) =>
       addToCart(item!),
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["cart"],
       });
@@ -39,24 +41,36 @@ function ProductDetails({
     <div>
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-10">
         <div>
-          <div className="relative h-[500px] border ">
+          <m.div
+            layout
+            className="aspect-w-3 aspect-h-2 rounded-xl overflow-hidden"
+          >
             <Image
-              src={images?.[0]?.file?.url!}
+              src={activeImage!}
               fill
               alt={name}
-              className="absolute h-full w-full object-cover object-center rounded-xl"
+              className="object-cover"
             />
-          </div>
-          <div className="mt-5">
-            {images?.map((image) => (
-              <div key={image?.id}>
-                <Image
-                  src={image.file?.url!}
-                  alt={`${image?.id}`}
-                  width={100}
-                  height={100}
-                  className=" aspect-square object-cover border"
-                />
+          </m.div>
+          <div className="mt-5 flex space-x-3 flex-wrap">
+            {images?.map((image: any) => (
+              <div
+                key={image?.id}
+                className={`rounded-lg overflow-hidden h-[100px] w-[100px] cursor-pointer ${
+                  activeImage === image?.file?.url
+                    ? "opacity-100 border p-1 border-zinc-300"
+                    : "opacity-75"
+                }`}
+                onClick={() => setActiveImage(image?.file?.url)}
+              >
+                <div className="aspect-w-1 aspect-h-1">
+                  <Image
+                    src={image?.file?.url!}
+                    alt={`${image?.id}`}
+                    fill
+                    className="object-cover bg-zinc-300 rounded-lg"
+                  />
+                </div>
               </div>
             ))}
           </div>

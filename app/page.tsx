@@ -2,12 +2,13 @@ import { getCategories } from "@/lib/swell/category";
 import { getProducts } from "@/lib/swell/products";
 import CategoryProducts from "./CategoryProducts";
 import FeaturedProducts from "./FeaturedProducts";
-import Fuck from "./Fuck";
 
 async function Homepage() {
   const response = await getProducts({});
 
   const categories = await getCategories();
+
+  console.log("HOME PAGE");
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -17,8 +18,6 @@ async function Homepage() {
       />
       {/* @ts-expect-error */}
       <FeaturedProducts products={response?.results} />
-
-      <Fuck />
     </div>
   );
 }

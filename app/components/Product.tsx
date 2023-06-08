@@ -11,6 +11,8 @@ import ProductQuickView from "./ProductQuickView";
 
 function Product({ product }: { product: ProductType }) {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   const { name, price, images, slug } = product || {};
   return (
     <m.div
@@ -31,12 +33,17 @@ function Product({ product }: { product: ProductType }) {
       layout
       className="space-y-3"
     >
-      <div className="relative h-[200px] group cursor-pointer  rounded-xl overflow-hidden group ">
+      <div className="aspect-w-1 aspect-h-1 cursor-pointer group relative rounded-xl overflow-hidden group ">
         <Image
           src={images[0]?.file?.url}
           fill
-          className=" absolute group-hover:scale-110 transition-all duration-200 opacity-95 aspect-video hover:opacity-100 object-cover object-center"
+          className={`${
+            loading
+              ? "scale-110 blur-xl grayscale"
+              : "scale-100 blur-none grayscale-0"
+          } duration-700 hover:opacity-75 group-hover:scale-110 ease-in-out object-cover`}
           alt={name}
+          onLoadingComplete={() => setLoading(false)}
         />
 
         <m.div
@@ -61,12 +68,13 @@ function Product({ product }: { product: ProductType }) {
       </div>
 
       <div>
-        <div>
-          <Link href={`/${slug}`}>
-            <h1 className="font-medium">{name}</h1>
-          </Link>
-          <p className="font-medium">{formatCurrency({ amount: price })}</p>
-        </div>
+        <Link href={`/${slug}`}>
+          <div>
+            <h1 className="text-underline">{name}</h1>
+
+            <p className="font-medium">{formatCurrency({ amount: price })}</p>
+          </div>
+        </Link>
       </div>
       <ProductQuickView product={product} open={open} setOpen={setOpen} />
     </m.div>

@@ -6,7 +6,7 @@ import { StarIcon } from "@heroicons/react/20/solid";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
-import { Dispatch, Fragment, SetStateAction } from "react";
+import { Dispatch, Fragment, SetStateAction, useState } from "react";
 import { toast } from "react-hot-toast";
 
 function classNames(...classes: any) {
@@ -22,6 +22,7 @@ export default function ProductQuickView({
   setOpen: Dispatch<SetStateAction<boolean>>;
   product: ProductType;
 }) {
+  const [isImageLoading, setIsImageLoading] = useState(true);
   const queryClient = useQueryClient();
   const { mutateAsync, isLoading } = useMutation({
     mutationFn: (item: { product_id: string; quantity: number }) =>
@@ -84,12 +85,15 @@ export default function ProductQuickView({
                   </button>
 
                   <div className="grid w-full grid-cols-1 items-start gap-x-6 gap-y-8 sm:grid-cols-12 lg:gap-x-8">
-                    <div className="aspect-h-3 min-h-[200px] aspect-w-2 relative overflow-hidden rounded-lg bg-gray-100 sm:col-span-4 lg:col-span-5">
+                    <div className="aspect-h-3 aspect-w-2 overflow-hidden rounded-lg bg-gray-100 sm:col-span-4 lg:col-span-5">
                       <Image
                         src={product.images?.[0]?.file?.url}
                         alt={product?.name}
                         fill
-                        className="absolute object-cover object-center"
+                        className={`${
+                          isImageLoading ? "grayscale" : "grayscale-0"
+                        } duration-700 ease-in-out object-cover`}
+                        onLoadingComplete={() => setIsImageLoading(false)}
                       />
                     </div>
                     <div className="sm:col-span-8 lg:col-span-7">
