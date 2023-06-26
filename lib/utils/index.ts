@@ -6,7 +6,7 @@ interface CurrencyProps {
 }
 
 export const formatCurrency = ({
-  amount,
+  amount = 10,
   local = "en-US",
   currency = "USD",
   decimalPlaces = 2,
